@@ -166,11 +166,13 @@ int main() {
 			r = forks[i + 1];
 		}
 
-		phil[i] = new philosopher(l,r,&Water,rand()%900+100,rand()%900+200);
-		threads[i] = new thread(foo, phil[i]);
+		phil[i] = new philosopher(l,r,&Water,rand()%900+100,rand()%900+200); //создаем философа
+		threads[i] = new thread(foo, phil[i]); //запускаем новый поток с данным философом
 		threads[i]->detach();
 	}
-
+	/*
+		Вывод информации о состоянии вилок и философов.
+	*/
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO structCursorInfo;
 	GetConsoleCursorInfo(handle, &structCursorInfo);
@@ -186,17 +188,17 @@ int main() {
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
 			if (forks[i]->id == 0) {
-				cout << "Fork #" << i+1 << " on table                              ";
+				cout << "Fork #" << i+1 << " on table                              "; //вилка на столе
 			}
 			else {
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
-				cout << "Philosopher " << forks[i]->id << " take fork #" << i+1;
+				cout << "Philosopher " << forks[i]->id << " take fork #" << i+1; //вилка у философа forks[i]->id
 				
 			}
 			
 			phil[i]->printStates(2, 3 + 2 * i);
 		}
-
+		///////дублируем первую вилку в конце для наглядности
 		int i = 0;
 		COORD c;
 		c.X = 12;
